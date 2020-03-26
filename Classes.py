@@ -78,17 +78,5 @@ class LinkedList:
 
         return self.searchInner(position, currentPosition+1, current.next)
 
-    def printInventary(self):
-        identificator = "id.   |"
-        name = "Nombre         |"
-        duration = "Duración   |"
-        description = "Descripción               |"
-        category = "Categoría   |"
-        director = "Director         "
-
-        print("."*50)
-        print("Películas")
-        print("."*50)
-        print(identificator + name + duration + description + category + director)
         
         

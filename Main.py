@@ -1,4 +1,6 @@
+# -*- coding: 'utf-8' -*_
 from Classes import *
+from GUI import *
 
 movie1 = Movie("pelicula1", 1, "Don Juan", "acción", "Hola mundo1")
 movie2 = Movie("pelicula2", 2, "Urrutia", "terror", "Hola mundo2")
@@ -11,7 +13,4 @@ ll.push(movie2)
 ll.push(movie3)
 ll.push(movie4)
 
-ll.remove(1)
-print(ll.search(3))
 
-ll.printInventary()
