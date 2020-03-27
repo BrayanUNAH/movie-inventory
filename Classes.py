@@ -1,19 +1,19 @@
 class Movie:
-    def __init__(self, movieName, durationTime, directorName, category, description):
+    def __init__(self, movieName, movieDuration, directorName, category, description):
         self.movieName = movieName
-        self.durationTime = durationTime #convertir a segundos
+        self.movieDuration = movieDuration #convertir a segundos
         self.directorName = directorName
         self.category = category
         self.description = description
 
-    def setNewMovieData(self, movieName, durationTime, directorName, category, description):
-        self.__init__(movieName, durationTime, directorName, category, description)
+    def setNewMovieData(self, movieName, movieDuration, directorName, category, description):
+        self.__init__(movieName, movieDuration, directorName, category, description)
 
     def getMovieName(self): 
         return self.movieName
 
-    def getDurationTime(self):
-        return self.durationTime
+    def getMovieDuration(self):
+        return self.movieDuration
     
     def getDirectorName(self):
         return self.directorName
@@ -49,13 +49,11 @@ class LinkedList:
             return False
         if position == 0:
             self.first = self.first.next
-        
         currentPosition = 0
         previous = None
+        return self.__removeInner(position, currentPosition, self.first, previous)
 
-        return self.removeInner(position, currentPosition, self.first, previous)
-
-    def removeInner(self, position, currentPosition, current, previous):
+    def __removeInner(self, position, currentPosition, current, previous):
         if not current:
             return False
         if position == currentPosition:
@@ -64,19 +62,25 @@ class LinkedList:
         previous = current
         current = current.next
         currentPosition += 1
-        return self.removeInner(position, currentPosition, current, previous)
+        return self.__removeInner(position, currentPosition, current, previous)
+
+    def getTotalItems(self):
+        current = self.first
+        total = 0
+        while(current):
+            total += 1
+            current = current.next
+        return total
 
     def search(self, position):
-        return self.searchInner(position, 0, self.first)
+        return self.__searchInner(position, 0, self.first)
 
-    def searchInner(self, position, currentPosition, current):
+    def __searchInner(self, position, currentPosition, current):
         if not current:
             return False
-
         if position == currentPosition:
             return current
-
-        return self.searchInner(position, currentPosition+1, current.next)
+        return self.__searchInner(position, currentPosition+1, current.next)
 
         
         
