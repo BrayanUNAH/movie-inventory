@@ -8,13 +8,15 @@ class GUI(QtWidgets.QMainWindow, MainWindow):
         QtWidgets.QMainWindow.__init__(self, *args, **kwargs)
         self.setupUi(self)
         self.buttonAddMovie.clicked.connect(self.addWindow)
-        self.buttonEditMovie.clicked.connect(self.editWindow)
+        self.buttonViewAndEditListing.clicked.connect(self.editWindow)
         
     def addWindow(self):
         self.window = QtWidgets.QMainWindow()
         self.ui = AddWindow()
         self.ui.setupUi(self.window)
         self.window.show()
+        print(self.ui.textDescription.toPlainText())
+        
 
     def editWindow(self):
         self.window = QtWidgets.QMainWindow()

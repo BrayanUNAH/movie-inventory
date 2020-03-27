@@ -10,9 +10,9 @@ class MainWindow(object):
         self.buttonAddMovie = QtWidgets.QPushButton(Dialog)
         self.buttonAddMovie.setGeometry(QtCore.QRect(80, 300, 221, 61))
         self.buttonAddMovie.setObjectName("buttonAddMovie")
-        self.buttonEditMovie = QtWidgets.QPushButton(Dialog)
-        self.buttonEditMovie.setGeometry(QtCore.QRect(80, 380, 221, 61))
-        self.buttonEditMovie.setObjectName("buttonListMovie")
+        self.buttonViewAndEditListing = QtWidgets.QPushButton(Dialog)
+        self.buttonViewAndEditListing.setGeometry(QtCore.QRect(80, 380, 221, 61))
+        self.buttonViewAndEditListing.setObjectName("buttonViewAndEditListing")
         self.buttonViewTree = QtWidgets.QPushButton(Dialog)
         self.buttonViewTree.setGeometry(QtCore.QRect(80, 460, 221, 61))
         self.buttonViewTree.setObjectName("buttonViewTree")
@@ -39,10 +39,10 @@ class MainWindow(object):
         _translate = QtCore.QCoreApplication.translate
         Dialog.setWindowTitle(_translate("Dialog", "Ventana Principal"))
         self.buttonAddMovie.setText(_translate("Dialog", "Agregar"))
-        self.buttonEditMovie.setText(_translate("Dialog", "Ver y Editar Listado"))
+        self.buttonViewAndEditListing.setText(_translate("Dialog", "Ver y Editar Listado"))
         self.buttonViewTree.setText(_translate("Dialog", "Visualización del Árbol"))
         self.buttonAbout.setText(_translate("Dialog", "Acerca de"))
         self.labelMoviesInTotal.setText(_translate("Dialog", "Películas en Total"))
-        self.labelNumberOfMovies.setText(_translate("Dialog", "<html><head/><body><p>1</p></body></html>"))
+        self.labelNumberOfMovies.setText(_translate("Dialog", "<html><head/><body><p>%s</p></body></html>" % "N"))
 
 
