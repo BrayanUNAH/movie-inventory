@@ -1,16 +1,22 @@
 # -*- coding: 'utf-8' -*_
-from Classes import *
-from GUI import *
+from LinkedList import LinkedList
+from Movie import Movie
+import sys
+from MainWindow import *
+from AddWindow import *
+from EditWindow import *
 
-movie1 = Movie("pelicula1", 1, "Don Juan", "acción", "Hola mundo1")
-movie2 = Movie("pelicula2", 2, "Urrutia", "terror", "Hola mundo2")
-movie3 = Movie("pelicula3", 3, "Andrade", "drama", "Hola mundo3")
-movie4 = Movie("pelicula4", 4, "Felipe", "comedia", "Hola mundo4")
+class GraphicInterface(QtWidgets.QMainWindow, MainWindow):
+    def __init__(self, *args, **kwargs):
+        QtWidgets.QMainWindow.__init__(self, *args, **kwargs)
+        self.setupUi(self)
 
-ll = LinkedList()
-ll.push(movie1)
-ll.push(movie2)
-ll.push(movie3)
-ll.push(movie4)
+
+if __name__ == "__main__":
+    movieList = LinkedList()
+    app = QtWidgets.QApplication([])
+    window = GraphicInterface()
+    window.show()
+    app.exec_()
 
 
