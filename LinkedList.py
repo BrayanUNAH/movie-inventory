@@ -40,6 +40,24 @@ class LinkedList:
         currentPosition += 1
         return self.__removeInner(position, currentPosition, current, previous)
 
+    def overwrite(self, position, value):
+        if not self.first:
+            return False
+        if position == 0:
+            aux = self.first.next
+            self.first = Node(value)
+            self.first.next = aux
+            return True
+        currentPosition = 0
+        self.__overwriteInner(position, currentPosition, self.first, None, value)
+
+    def __overwriteInner(self, position, currentPosition, current, previous, value):
+        if position == currentPosition:
+            previous.next = Node(value)
+            previous.next.next = current.next
+            return True
+        return self.__overwriteInner(position, currentPosition+1, current.next, current, value)
+
     def getTotalItems(self):
         current = self.first
         total = 0
@@ -71,5 +89,3 @@ class LinkedList:
         self.tree.drawTree()
         return True
 
-        
-        
