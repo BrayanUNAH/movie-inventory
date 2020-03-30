@@ -1,9 +1,14 @@
 # -*- coding: utf-8 -*-
-
-from PyQt5 import QtCore, QtGui, QtWidgets
+from Movie import Movie
+from PyQt5 import QtCore, QtGui, QtWidgets, QtWidgets
+from LinkedList import LinkedList
 
 
 class AddWindow(object):
+
+    def __init__(self, movieList):
+        self.movieList = movieList
+
     def setupUi(self, Dialog):
         Dialog.setObjectName("Dialog")
         Dialog.resize(697, 501)
@@ -58,7 +63,34 @@ class AddWindow(object):
         self.buttonDelete.clicked.connect(self.textDescription.clear)
         self.buttonDelete.clicked.connect(self.textDirector.clear)
         self.retranslateUi(Dialog)
+        self.buttonAdd.clicked.connect(self.addToLinkedList)
+        #self.message = QMessageBox()
         QtCore.QMetaObject.connectSlotsByName(Dialog)
+
+    def addToLinkedList(self):
+        movieName = self.textNameMovie.toPlainText()
+        movieDuration = self.textDurationTime.toPlainText()
+        directorName = self.textDirector.toPlainText()
+        category = self.category.currentText()
+        description = self.textDescription.toPlainText()
+
+        if movieName == "" or movieDuration == "" or directorName == "" or directorName == "" or category == "" or description == "":
+            self.message = QtWidgets.QMessageBox()
+            self.message.setWindowTitle("Incompleto")
+            self.message.setText("Todos los campos deben estar completos")
+            x = self.message.exec_()
+            return False
+        movie = Movie(movieName, movieDuration, directorName, category, description)
+        self.movieList.push(movie)
+        print(self.movieList.getTotalItems())
+        self.clearTextBox()
+
+    def clearTextBox(self):
+        self.textNameMovie.clear()
+        self.textDurationTime.clear()
+        self.textDirector.clear()
+        self.textDescription.clear()
+
 
     def retranslateUi(self, Dialog):
         _translate = QtCore.QCoreApplication.translate
