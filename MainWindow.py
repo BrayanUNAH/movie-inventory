@@ -1,9 +1,15 @@
 # -*- coding: utf-8 -*-
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-
+from AddWindow import AddWindow
+from EditWindow import EditWindow
+from LinkedList import LinkedList
 
 class MainWindow(object):
+
+    def __init__(self):
+        self.movieList = LinkedList()
+
     def setupUi(self, Dialog):
         Dialog.setObjectName("Dialog")
         Dialog.resize(388, 544)
@@ -31,9 +37,26 @@ class MainWindow(object):
         font.setPointSize(48)
         self.labelNumberOfMovies.setFont(font)
         self.labelNumberOfMovies.setObjectName("labelNumberOfMovies")
-
         self.retranslateUi(Dialog)
+        
+        self.buttonAddMovie.clicked.connect(self.addWindow)
+        self.buttonViewAndEditListing.clicked.connect(self.editWindow)
+        
         QtCore.QMetaObject.connectSlotsByName(Dialog)
+
+
+    def addWindow(self):
+        self.window = QtWidgets.QMainWindow()
+        self.ui = AddWindow(self.movieList)
+        self.ui.setupUi(self.window)
+        self.window.show()
+
+    def editWindow(self):
+        self.window = QtWidgets.QMainWindow()
+        self.ui = EditWindow(self.movieList)
+        self.ui.setupUi(self.window)
+        self.window.show()
+
 
     def retranslateUi(self, Dialog):
         _translate = QtCore.QCoreApplication.translate
@@ -43,6 +66,6 @@ class MainWindow(object):
         self.buttonViewTree.setText(_translate("Dialog", "Visualización del Árbol"))
         self.buttonAbout.setText(_translate("Dialog", "Acerca de"))
         self.labelMoviesInTotal.setText(_translate("Dialog", "Películas en Total"))
-        self.labelNumberOfMovies.setText(_translate("Dialog", "<html><head/><body><p>%s</p></body></html>" % "N"))
+        self.labelNumberOfMovies.setText(_translate("Dialog", "<html><head/><body><p>%s</p></body></html>" % self.movieList.getTotalItems()))
 
 
