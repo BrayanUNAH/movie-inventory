@@ -6,10 +6,6 @@ class Movie:
         self.category = category
         self.description = description
 
-    def setNewMovieData(self, movieName, movieDuration, directorName, category, description):
-        self.__init__(movieName, movieDuration,
-                      directorName, category, description)
-
     def getMovieName(self):
         return self.movieName
 
