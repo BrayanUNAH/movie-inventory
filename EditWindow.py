@@ -13,11 +13,9 @@ class EditWindow(object):
     def setupUi(self, Dialog):
         Dialog.setObjectName("Dialog")
         Dialog.resize(653, 366)
-        self.treeWidget = QtWidgets.QTreeWidget(Dialog)
-        self.treeWidget.setGeometry(QtCore.QRect(20, 20, 611, 171))
-        self.treeWidget.setObjectName("treeWidget")
-        for i in range(self.movieList.getTotalItems()):
-            item_0 = QtWidgets.QTreeWidgetItem(self.treeWidget)
+        self.movieTable = QtWidgets.QTreeWidget(Dialog)
+        self.movieTable.setGeometry(QtCore.QRect(20, 20, 611, 171))
+        self.movieTable.setObjectName("movieTable")
         self.labelItemNumber = QtWidgets.QLabel(Dialog)
         self.labelItemNumber.setGeometry(QtCore.QRect(100, 220, 151, 20))
         self.labelItemNumber.setObjectName("labelItemNumber")
@@ -36,8 +34,21 @@ class EditWindow(object):
         self.buttonDeleteItem.setObjectName("buttonDeleteItem")
         self.buttonEditItem.clicked.connect(self.editItem)
         self.buttonDeleteItem.clicked.connect(self.deleteItem)
+        self.buttonDeleteItem.clicked.connect(self.updateMovieTable)
         self.retranslateUi(Dialog)
+        self.updateMovieTable()
         QtCore.QMetaObject.connectSlotsByName(Dialog)
+
+    def updateMovieTable(self):
+        self.movieTable.clear()
+
+        for i in range(self.movieList.getTotalItems()):
+            item = QtWidgets.QTreeWidgetItem(self.movieTable)
+
+        for row in range (self.movieList.getTotalItems()):
+            for column in range(0, 6):
+                    self.movieTable.topLevelItem(row).setText(column, "%s" % self.movieList.getTotalItems())
+
 
     def editItem(self):
         try:
@@ -46,7 +57,7 @@ class EditWindow(object):
             self.invalidMessage()
             return False
         if itemNumber < self.movieList.getTotalItems() and itemNumber >= 0:
-            self.addWindow(self.movieList.search(itemNumber), itemNumber)
+            self.addWindow(self.movieList.search(itemNumber))
         else:
             self.invalidMessage()
         return True
@@ -58,7 +69,7 @@ class EditWindow(object):
         x = self.message.exec_()
 
 
-    def addWindow(self, movie, itemNumber):
+    def addWindow(self, movie):
         self.window = QtWidgets.QMainWindow()
         self.ui = AddWindow(self.movieList)
         self.ui.setupUi(self.window)
@@ -67,35 +78,18 @@ class EditWindow(object):
         self.ui.textDurationTime.setPlainText(movie.value.getMovieDuration())
         self.ui.textDirector.setPlainText(movie.value.getDirectorName())
         self.ui.textDescription.setPlainText(movie.value.getDescription())
-
-        self.ui.buttonAdd.hide()
-        
-        self.ui.auxButtonAdd = QtWidgets.QPushButton(self.window)
-        self.ui.auxButtonAdd.setGeometry(QtCore.QRect(374, 440, 101, 41))
-        self.ui.auxButtonAdd.setObjectName("auxButtonAdd")
-        self.ui.auxButtonAdd.setText("Agregar")
+        self.ui.buttonAdd.clicked.connect(self.window.close)
+        self.ui.buttonAdd.clicked.connect(self.overwriteMovie)
         self.window.show()
-        self.OverwriteMovie(itemNumber)
-        self.ui.auxButtonAdd.clicked.connect(self.ui.clearTextBox)
 
-    def OverwriteMovie(self, itemNumber):
-        movieName = self.ui.textNameMovie.toPlainText()
-        movieDuration = self.ui.textDurationTime.toPlainText()
-        directorName = self.ui.textDirector.toPlainText()
-        category = self.ui.category.currentText()
-        description = self.ui.textDescription.toPlainText()
 
-        if movieName == "" or movieDuration == "" or directorName == "" or directorName == "" or category == "" or description == "":
-            self.message = QtWidgets.QMessageBox()
-            self.message.setWindowTitle("Incompleto")
-            self.message.setText("Todos los campos deben estar completos")
-            x = self.message.exec_()
-            return False
-        movie = Movie(movieName, movieDuration,
-                      directorName, category, description)
-        self.movieList.overwrite(itemNumber, movie)
+    def overwriteMovie(self):
+        itemNumber = int(self.textItemNumber.toPlainText())
+        lastMovie = self.movieList.getTotalItems()-1
+        movieToInsert = self.movieList.search(lastMovie).value
+        self.movieList.remove(lastMovie)
+        self.movieList.overwrite(itemNumber, movieToInsert)
         return True
-
 
     def deleteItem(self):
         try:
@@ -109,34 +103,22 @@ class EditWindow(object):
             self.invalidMessage()
         return True
 
+                    
 
     def retranslateUi(self, Dialog):
         _translate = QtCore.QCoreApplication.translate
         Dialog.setWindowTitle(_translate("Dialog", "Ventana Editar"))
-        self.treeWidget.headerItem().setText(0, _translate("Dialog", "No. Item"))
-        self.treeWidget.headerItem().setText(1, _translate("Dialog", "Nombre"))
-        self.treeWidget.headerItem().setText(2, _translate("Dialog", "Duración"))
-        self.treeWidget.headerItem().setText(3, _translate("Dialog", "Descripción"))
-        self.treeWidget.headerItem().setText(4, _translate("Dialog", "Director"))
-        self.treeWidget.headerItem().setText(5, _translate("Dialog", "Categoría"))
-        __sortingEnabled = self.treeWidget.isSortingEnabled()
-        self.treeWidget.setSortingEnabled(False)
-        for i in range (self.movieList.getTotalItems()):
-            for y in range(0,6):
-                    self.treeWidget.topLevelItem(i).setText(y, _translate("Dialog", "%s" % self.movieList.getTotalItems()))
-        """self.treeWidget.topLevelItem(0).setText(0, _translate("Dialog", "Item"))
-        self.treeWidget.topLevelItem(0).setText(1, _translate("Dialog", "nombre"))
-        self.treeWidget.topLevelItem(0).setText(2, _translate("Dialog", "duración"))
-        self.treeWidget.topLevelItem(0).setText(3, _translate("Dialog", "descripción esto es una description"))
-        self.treeWidget.topLevelItem(0).setText(4, _translate("Dialog", "director"))
-        self.treeWidget.topLevelItem(0).setText(5, _translate("Dialog", "categoría"))
-        self.treeWidget.topLevelItem(1).setText(0, _translate("Dialog", "sd"))
-        self.treeWidget.topLevelItem(1).setText(1, _translate("Dialog", "1"))
-        self.treeWidget.topLevelItem(1).setText(2, _translate("Dialog", "sd"))
-        self.treeWidget.topLevelItem(1).setText(3, _translate("Dialog", "sd"))
-        self.treeWidget.topLevelItem(1).setText(4, _translate("Dialog", "sd"))
-        self.treeWidget.topLevelItem(1).setText(5, _translate("Dialog", "sd"))"""
-        self.treeWidget.setSortingEnabled(__sortingEnabled)
+        self.movieTable.headerItem().setText(0, _translate("Dialog", "No. Item"))
+        self.movieTable.headerItem().setText(1, _translate("Dialog", "Nombre"))
+        self.movieTable.headerItem().setText(2, _translate("Dialog", "Duración"))
+        self.movieTable.headerItem().setText(3, _translate("Dialog", "Descripción"))
+        self.movieTable.headerItem().setText(4, _translate("Dialog", "Director"))
+        self.movieTable.headerItem().setText(5, _translate("Dialog", "Categoría"))
+        __sortingEnabled = self.movieTable.isSortingEnabled()
+        self.movieTable.setSortingEnabled(False)
+        self.movieTable.setSortingEnabled(__sortingEnabled)
         self.labelItemNumber.setText(_translate("Dialog", "No. de Item a Editar o Eliminar"))
         self.buttonEditItem.setText(_translate("Dialog", "Editar"))
         self.buttonDeleteItem.setText(_translate("Dialog", "Borrar"))
+        
+

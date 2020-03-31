@@ -25,6 +25,7 @@ class LinkedList:
             return False
         if position == 0:
             self.first = self.first.next
+            return True
         currentPosition = 0
         previous = None
         return self.__removeInner(position, currentPosition, self.first, previous)
@@ -77,7 +78,12 @@ class LinkedList:
         return self.__searchInner(position, currentPosition+1, current.next)
 
 
-    def toBinaryTree(self):
+    def drawBinaryTreeDuration(self):
+        self.__toBinaryTree()
+        self.tree.drawTree()
+        return True
+
+    def __toBinaryTree(self):
         current = self.first
         self.tree = BinaryTree()
         while current:
@@ -85,7 +91,16 @@ class LinkedList:
             current = current.next
         return True
 
-    def drawBinaryTree(self):
-        self.tree.drawTree()
-        return True
+    def drawHierarchicalCategoryTree(self):
+        pass
 
+    def __toHierarchicalCategoryTree(self):
+        pass
+
+    def printList(self):
+        current = self.first
+        while(current):
+            print(current.value, end=" ")
+            current = current.next
+        print("")
+        return True

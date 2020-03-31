@@ -4,11 +4,23 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from AddWindow import AddWindow
 from EditWindow import EditWindow
 from LinkedList import LinkedList
+from Movie import Movie
+from MemoryManager import MemoryManager
+import os
+
 
 class MainWindow(object):
 
     def __init__(self):
-        self.movieList = LinkedList()
+        self.memory = MemoryManager()
+        if os.path.isfile('memory\\memory.json'):
+            self.movieList = self.memory.loadLinkedList() 
+        else:
+            self.movieList = LinkedList()
+
+    def closeEvent(self, event):
+        self.memory.saveLinkedList(self.movieList, self.movieList.getTotalItems())
+
 
     def setupUi(self, Dialog):
         Dialog.setObjectName("Dialog")
@@ -16,9 +28,9 @@ class MainWindow(object):
         self.buttonAddMovie = QtWidgets.QPushButton(Dialog)
         self.buttonAddMovie.setGeometry(QtCore.QRect(80, 300, 221, 61))
         self.buttonAddMovie.setObjectName("buttonAddMovie")
-        self.buttonViewAndEditListing = QtWidgets.QPushButton(Dialog)
-        self.buttonViewAndEditListing.setGeometry(QtCore.QRect(80, 380, 221, 61))
-        self.buttonViewAndEditListing.setObjectName("buttonViewAndEditListing")
+        self.buttonEditList = QtWidgets.QPushButton(Dialog)
+        self.buttonEditList.setGeometry(QtCore.QRect(80, 380, 221, 61))
+        self.buttonEditList.setObjectName("buttonEditList")
         self.buttonViewTree = QtWidgets.QPushButton(Dialog)
         self.buttonViewTree.setGeometry(QtCore.QRect(80, 460, 221, 61))
         self.buttonViewTree.setObjectName("buttonViewTree")
@@ -38,9 +50,9 @@ class MainWindow(object):
         self.labelNumberOfMovies.setFont(font)
         self.labelNumberOfMovies.setObjectName("labelNumberOfMovies")
         self.retranslateUi(Dialog)
-        
         self.buttonAddMovie.clicked.connect(self.addWindow)
-        self.buttonViewAndEditListing.clicked.connect(self.editWindow)
+        self.buttonEditList.clicked.connect(self.editWindow)
+        self.buttonViewTree.clicked.connect(self.viewTree)
         
         QtCore.QMetaObject.connectSlotsByName(Dialog)
 
@@ -50,22 +62,30 @@ class MainWindow(object):
         self.ui = AddWindow(self.movieList)
         self.ui.setupUi(self.window)
         self.window.show()
+        self.ui.buttonAdd.clicked.connect(self.updateLabelNumberOfMovies)
+        
 
     def editWindow(self):
         self.window = QtWidgets.QMainWindow()
         self.ui = EditWindow(self.movieList)
         self.ui.setupUi(self.window)
         self.window.show()
+        self.ui.buttonDeleteItem.clicked.connect(self.updateLabelNumberOfMovies)
+        
 
+    def updateLabelNumberOfMovies(self):
+        self.labelNumberOfMovies.setText(("<html><head/><body><p>%s</p></body></html>" % self.movieList.getTotalItems()))
+
+    def viewTree(self):
+        self.movieList.drawBinaryTreeDuration()
 
     def retranslateUi(self, Dialog):
         _translate = QtCore.QCoreApplication.translate
         Dialog.setWindowTitle(_translate("Dialog", "Ventana Principal"))
         self.buttonAddMovie.setText(_translate("Dialog", "Agregar"))
-        self.buttonViewAndEditListing.setText(_translate("Dialog", "Ver y Editar Listado"))
+        self.buttonEditList.setText(_translate("Dialog", "Ver y Editar Listado"))
         self.buttonViewTree.setText(_translate("Dialog", "Visualización del Árbol"))
         self.buttonAbout.setText(_translate("Dialog", "Acerca de"))
         self.labelMoviesInTotal.setText(_translate("Dialog", "Películas en Total"))
-        self.labelNumberOfMovies.setText(_translate("Dialog", "<html><head/><body><p>%s</p></body></html>" % self.movieList.getTotalItems()))
-
+        self.updateLabelNumberOfMovies()
 

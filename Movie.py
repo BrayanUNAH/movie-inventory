@@ -1,3 +1,4 @@
+# -*- coding: 'utf-8' -*-
 class Movie:
     def __init__(self, movieName, movieDuration, directorName, category, description):
         self.movieName = movieName
@@ -5,6 +6,7 @@ class Movie:
         self.directorName = directorName
         self.category = category
         self.description = description
+
 
     def getMovieName(self):
         return self.movieName
@@ -20,3 +22,13 @@ class Movie:
 
     def getDescription(self):
         return self.description
+
+    def getVariablesDict(self):
+        variableDict = {0: self.movieName,
+                        1: self.movieDuration,
+                        2: self.directorName,
+                        3: self.category,
+                        4: self.description
+                        }
+        return variableDict
+        

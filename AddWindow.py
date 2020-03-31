@@ -20,6 +20,8 @@ class AddWindow(object):
         self.category.addItem("")
         self.category.addItem("")
         self.category.addItem("")
+        self.category.addItem("")
+        self.category.addItem("")
         self.labelNameMovie = QtWidgets.QLabel(Dialog)
         self.labelNameMovie.setGeometry(QtCore.QRect(30, 20, 131, 20))
         self.labelNameMovie.setObjectName("labelNameMovie")
@@ -95,9 +97,10 @@ class AddWindow(object):
     def retranslateUi(self, Dialog):
         _translate = QtCore.QCoreApplication.translate
         Dialog.setWindowTitle(_translate("Dialog", "Agregar"))
-        self.category.setItemText(0, _translate("Dialog", "Comedia"))
-        self.category.setItemText(1, _translate("Dialog", "Musical"))
-        self.category.setItemText(2, _translate("Dialog", "Documental"))
+        self.category.setItemText(0, _translate("Dialog", "Seleccionar una categoría"))
+        self.category.setItemText(1, _translate("Dialog", "Comedia"))
+        self.category.setItemText(2, _translate("Dialog", "Musical"))
+        self.category.setItemText(3, _translate("Dialog", "Documental"))
         self.labelNameMovie.setText(_translate("Dialog", "Nombre de la Película"))
         self.labelMovieDuration.setText(_translate("Dialog", "Duración de la Película (HH:MM:SS)"))
         self.labelDescription.setText(_translate("Dialog", "Descripción"))
@@ -105,5 +108,6 @@ class AddWindow(object):
         self.labelCategory.setText(_translate("Dialog", "Categoría"))
         self.buttonDelete.setText(_translate("Dialog", "Borrar"))
         self.buttonAdd.setText(_translate("Dialog", "Agregar"))
+
 
     
