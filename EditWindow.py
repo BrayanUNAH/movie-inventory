@@ -46,8 +46,13 @@ class EditWindow(object):
             item = QtWidgets.QTreeWidgetItem(self.movieTable)
 
         for row in range (self.movieList.getTotalItems()):
+            movie = self.movieList.search(row).value.getVariableList()
             for column in range(0, 6):
-                    self.movieTable.topLevelItem(row).setText(column, "%s" % self.movieList.getTotalItems())
+                if column == 0:
+                    self.movieTable.topLevelItem(row).setText(column, "%s" % row)
+                else:   
+                    self.movieTable.topLevelItem(row).setText(column, "%s" % movie[column-1])
+                
 
 
     def editItem(self):
@@ -81,6 +86,7 @@ class EditWindow(object):
         self.ui.buttonAdd.clicked.connect(self.window.close)
         self.ui.buttonAdd.clicked.connect(self.overwriteMovie)
         self.window.show()
+        self.ui.buttonAdd.clicked.connect(self.updateMovieTable)
 
 
     def overwriteMovie(self):

@@ -23,6 +23,13 @@ class Movie:
     def getDescription(self):
         return self.description
 
+    def getVariableList(self):
+        return [self.movieName,
+                self.movieDuration,  # convertir a segundos
+                self.directorName,
+                self.category,
+                self.description]
+
     def getVariablesDict(self):
         variableDict = {0: self.movieName,
                         1: self.movieDuration,

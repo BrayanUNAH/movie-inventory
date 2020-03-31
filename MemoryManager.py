@@ -2,10 +2,12 @@
 from LinkedList import LinkedList
 from Movie import Movie
 import json
+import os
 
 class MemoryManager:
     def __init__(self):
         self.memoryPath = 'memory\\memory.json'
+        os.makedirs('memory', exist_ok=True)
 
     def saveLinkedList(self, linkedList, totalItems):
         memoryFile = open(self.memoryPath, 'w')
