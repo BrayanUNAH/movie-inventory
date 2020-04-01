@@ -1,9 +1,10 @@
 # -*- coding: utf-8 -*-
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-from LinkedList import LinkedList
-from AddWindow import AddWindow
-from Movie import Movie
+from Núcleo.LinkedList import LinkedList
+from Núcleo.AddWindow import AddWindow
+from Núcleo.Movie import Movie
+from Núcleo.ConfirmationWindow import ConfirmationWindow
 
 class EditWindow(object):
 
@@ -32,9 +33,8 @@ class EditWindow(object):
         self.buttonDeleteItem = QtWidgets.QPushButton(Dialog)
         self.buttonDeleteItem.setGeometry(QtCore.QRect(410, 250, 81, 61))
         self.buttonDeleteItem.setObjectName("buttonDeleteItem")
-        self.buttonEditItem.clicked.connect(self.editItem)
-        self.buttonDeleteItem.clicked.connect(self.deleteItem)
-        self.buttonDeleteItem.clicked.connect(self.updateMovieTable)
+        self.buttonEditItem.clicked.connect(self.confirmationMessageEditItem)
+        self.buttonDeleteItem.clicked.connect(self.confirmationMessageDeleteItem)
         self.retranslateUi(Dialog)
         self.updateMovieTable()
         QtCore.QMetaObject.connectSlotsByName(Dialog)
@@ -80,13 +80,14 @@ class EditWindow(object):
         self.ui.setupUi(self.window)
 
         self.ui.textNameMovie.setPlainText(movie.value.getMovieName())
-        self.ui.textDurationTime.setPlainText(movie.value.getMovieDuration())
+        self.ui.textDurationTime.setPlainText(self.convertSecondsToTimeFormat(movie.value.getMovieDuration()))
         self.ui.textDirector.setPlainText(movie.value.getDirectorName())
         self.ui.textDescription.setPlainText(movie.value.getDescription())
+        self.ui.category.setCurrentText(movie.value.getCategory())
         self.ui.buttonAdd.clicked.connect(self.window.close)
         self.ui.buttonAdd.clicked.connect(self.overwriteMovie)
-        self.window.show()
         self.ui.buttonAdd.clicked.connect(self.updateMovieTable)
+        self.window.show()
 
 
     def overwriteMovie(self):
@@ -109,17 +110,40 @@ class EditWindow(object):
             self.invalidMessage()
         return True
 
-                    
+    def confirmationMessageDeleteItem(self):
+        self.window = QtWidgets.QMainWindow()
+        self.ui = ConfirmationWindow()
+        self.ui.setupUi(self.window)
+        self.window.show()
+        self.ui.buttonOK.clicked.connect(self.deleteItem)
+        self.ui.buttonOK.clicked.connect(self.updateMovieTable)
+        self.ui.buttonOK.clicked.connect(self.window.close)
+        self.ui.buttonCancel.clicked.connect(self.window.close)
+
+    def confirmationMessageEditItem(self):
+        self.window = QtWidgets.QMainWindow()
+        self.ui = ConfirmationWindow()
+        self.ui.setupUi(self.window)
+        self.window.show()
+        self.ui.buttonOK.clicked.connect(self.editItem)
+        self.ui.buttonOK.clicked.connect(self.window.close)
+        self.ui.buttonCancel.clicked.connect(self.window.close)
+
+    def convertSecondsToTimeFormat(self, seconds):
+        hours = int(seconds) // 60 // 60
+        minutes = int(seconds) // 60 % 60
+        seconds = int(seconds) % 60
+        return '%s:%s:%s' % (hours, minutes, int(seconds))
 
     def retranslateUi(self, Dialog):
         _translate = QtCore.QCoreApplication.translate
         Dialog.setWindowTitle(_translate("Dialog", "Ventana Editar"))
         self.movieTable.headerItem().setText(0, _translate("Dialog", "No. Item"))
         self.movieTable.headerItem().setText(1, _translate("Dialog", "Nombre"))
-        self.movieTable.headerItem().setText(2, _translate("Dialog", "Duración"))
-        self.movieTable.headerItem().setText(3, _translate("Dialog", "Descripción"))
-        self.movieTable.headerItem().setText(4, _translate("Dialog", "Director"))
-        self.movieTable.headerItem().setText(5, _translate("Dialog", "Categoría"))
+        self.movieTable.headerItem().setText(2, _translate("Dialog", "Duración (seg.)"))
+        self.movieTable.headerItem().setText(3, _translate("Dialog", "Director"))
+        self.movieTable.headerItem().setText(4, _translate("Dialog", "Categoría"))
+        self.movieTable.headerItem().setText(5, _translate("Dialog", "Descripción"))
         __sortingEnabled = self.movieTable.isSortingEnabled()
         self.movieTable.setSortingEnabled(False)
         self.movieTable.setSortingEnabled(__sortingEnabled)

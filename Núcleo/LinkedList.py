@@ -1,5 +1,7 @@
-from BinaryTree import *
-from Movie import Movie
+# -*- coding: utf-8 -*-
+
+from Núcleo.BinaryTree import *
+from Núcleo.Movie import Movie
 
 class Node:
     def __init__(self, value):

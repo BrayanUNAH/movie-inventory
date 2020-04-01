@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-from AddWindow import AddWindow
-from EditWindow import EditWindow
-from LinkedList import LinkedList
-from Movie import Movie
-from MemoryManager import MemoryManager
+from Núcleo.AddWindow import AddWindow
+from Núcleo.EditWindow import EditWindow
+from Núcleo.LinkedList import LinkedList
+from Núcleo.Movie import Movie
+from Núcleo.MemoryManager import MemoryManager
 import os
 
 

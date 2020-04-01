@@ -1,6 +1,6 @@
+# -*- coding: utf-8 -*-
 import matplotlib.pyplot as plt
 import math
-from Movie import Movie
 
 class NodeBT:
     def __init__(self, value):
@@ -49,16 +49,14 @@ class BinaryTree:
         return True
 
     def drawTree(self):
-        fig, ax = plt.subplots(figsize=(6, 4))
+        fig, ax = plt.subplots(figsize=(10, 7))
 
         fig.subplots_adjust(top=0.99)
         fig.subplots_adjust(bottom=0)
         fig.subplots_adjust(right=1)
         fig.subplots_adjust(left=0)
 
-        """level = int(self.getLevel())
-        plt.plot(0, 0, int(math.pow(2, level-1)), level)"""
-        plt.plot(0,0, 20, 7)
+        plt.plot(0,0, 10, 10)
         self.__drawTreeInner(ax, self.root, self.getRootPositionX(), self.getLevel())
         plt.show()
 
@@ -71,14 +69,17 @@ class BinaryTree:
         if not current.right:
             rightChildPosition = (parentPositionX, parentPositionY)
 
-        an = ax.annotate("%s\n%s" % (current.value.getMovieDuration(), current.value.getMovieName()), 
+        movieDuration = self.convertSecondsToTimeFormat(current.value.getMovieDuration())
+        movieName = current.value.getMovieName()
+
+        an = ax.annotate("%s\n%s" % (movieDuration, movieName), 
                         xy=leftChildPosition,
                         xytext=(parentPositionX, parentPositionY),
                         va="bottom", ha="center",
                         bbox=dict(boxstyle="round", fc="w"),
                         arrowprops=dict(arrowstyle="->"))
 
-        an = ax.annotate("%s\n%s" % (current.value.getMovieDuration(), current.value.getMovieName()), 
+        an = ax.annotate("%s\n%s" % (movieDuration, movieName),
                         xy=rightChildPosition,
                         xytext=(parentPositionX, parentPositionY),
                         va="bottom", ha="center",
@@ -109,13 +110,9 @@ class BinaryTree:
     def distanceXBetweenChildren(self, parentPositionY):
         return math.pow(2, parentPositionY-2)
 
+    def convertSecondsToTimeFormat(self, seconds):
+        hours = int(seconds) // 60 // 60
+        minutes = int(seconds) // 60 % 60
+        seconds = int(seconds) % 60
+        return '%s:%s:%s' % (hours, minutes, int(seconds))
 
-
-"""tree = BinaryTree()
-tree.add(10)
-tree.add(15)
-tree.add(6)
-tree.add(7)
-tree.add(8)
-tree.add(0)
-tree.drawTree()"""

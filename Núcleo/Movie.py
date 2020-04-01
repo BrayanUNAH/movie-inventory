@@ -1,4 +1,5 @@
 # -*- coding: 'utf-8' -*-
+
 class Movie:
     def __init__(self, movieName, movieDuration, directorName, category, description):
         self.movieName = movieName
