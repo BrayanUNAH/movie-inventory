@@ -6,6 +6,7 @@ from Núcleo.EditWindow import EditWindow
 from Núcleo.LinkedList import LinkedList
 from Núcleo.Movie import Movie
 from Núcleo.MemoryManager import MemoryManager
+from Núcleo.AboutWindow import AboutWindow
 import os
 
 
@@ -53,7 +54,7 @@ class MainWindow(object):
         self.buttonAddMovie.clicked.connect(self.addWindow)
         self.buttonEditList.clicked.connect(self.editWindow)
         self.buttonViewTree.clicked.connect(self.viewTree)
-        
+        self.buttonAbout.clicked.connect(self.aboutWindow)
         QtCore.QMetaObject.connectSlotsByName(Dialog)
 
 
@@ -78,6 +79,12 @@ class MainWindow(object):
 
     def viewTree(self):
         self.movieList.drawBinaryTreeDuration()
+
+    def aboutWindow(self):
+        self.window = QtWidgets.QMainWindow()
+        self.ui = AboutWindow()
+        self.ui.setupUi(self.window)
+        self.window.show()
 
     def retranslateUi(self, Dialog):
         _translate = QtCore.QCoreApplication.translate
